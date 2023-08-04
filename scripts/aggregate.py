@@ -21,8 +21,9 @@ def check_property_names_match(filename, properties1, properties2):
     properties2. Exits with a human-readable error if they don't."""
     for (prop1, prop2) in zip(properties1, properties2):
         if prop1 != prop2:
-            print('Error in {}: property names {} and {} should be the same'
-                  .format(filename, prop1, prop2))
+            print(
+                f'Error in {filename}: property names {prop1} and {prop2} should be the same'
+            )
             exit(1)
 
 def columns_from_rows(rows):
@@ -64,12 +65,11 @@ def aggregate():
     with open(PROP_DESC_PATH) as fd:
         prop_desc = columns_from_rows(csv.reader(fd))
 
-    # Get the other columns, one per .csv file in crosswalks/
-    columns = []
-    for filename in list_crosswalks():
-        if filename.endswith('.csv'):
-            columns.append(read_terms(prop_desc, filename))
-
+    columns = [
+        read_terms(prop_desc, filename)
+        for filename in list_crosswalks()
+        if filename.endswith('.csv')
+    ]
     return prop_desc + columns
 
 def rm_file(filename):
